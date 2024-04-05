@@ -30,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Codejutsu1\\LaravelPaystackTransfer": "src/",
+            "Codejutsu1\\LaravelPaystackTransfer\\": "src/",
             "Codejutsu1\\LaravelPaystackTransfer\\Database\\Factories\\": "database/factories/"
         }
     },
