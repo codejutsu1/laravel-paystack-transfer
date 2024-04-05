@@ -29,6 +29,9 @@
         "pestphp/pest-plugin-laravel": "^2.3"
     },
     "autoload": {
+        "files" : [
+            "src/Helpers/helpers.php"
+        ],     
         "psr-4": {
             "Codejutsu1\\LaravelPaystackTransfer\\": "src/",
             "Codejutsu1\\LaravelPaystackTransfer\\Database\\Factories\\": "database/factories/"
