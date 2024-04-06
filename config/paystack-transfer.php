@@ -12,6 +12,6 @@ return [
      * Secret Key From Paystack Dashboard
      *
      */
-    'secret_key' => env('PAYSTACK_SECRET_KEY'),
+    'secret_key' => getenv('PAYSTACK_SECRET_KEY'),
 
 ];

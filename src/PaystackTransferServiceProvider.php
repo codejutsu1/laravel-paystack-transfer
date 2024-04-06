@@ -4,6 +4,7 @@ namespace Codejutsu1\LaravelPaystackTransfer;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Codejutsu1\LaravelPaystackTransfer\Commands\PaystackTransferCommand;
 
 class PaystackTransferServiceProvider extends PackageServiceProvider
@@ -16,8 +17,22 @@ class PaystackTransferServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('laravel-paystack-transfer')
+            ->name('codejutsu1/laravel-paystack-transfer')
             ->hasConfigFile()
-            ->hasCommand(PaystackTransferCommand::class);
+            ->publishesServiceProvider('Codejutsu1\LaravelPaystackTransfer\PaystackTransferServiceProvider')
+            ->hasInstallCommand(function(InstallCommand $command) {
+                $command
+                    ->startWith(function(InstallCommand $command) {
+                        $command->info('Hello, and welcome to my new Laravel Paystack Transfer package!');
+                        $command->newLine(2);
+                    })
+                    ->publishConfigFile()
+                    ->copyAndRegisterServiceProviderInApp()
+                    ->askToStarRepoOnGitHub('codejutsu1/laravel-vtung')
+                    ->endWith(function(InstallCommand $command) {
+                        $command->newLine(2);
+                        $command->info('Have a great day and no forget Enjoy oh!');
+                    });
+            });
     }
 }

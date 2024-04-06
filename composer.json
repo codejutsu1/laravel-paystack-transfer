@@ -67,7 +67,7 @@
             "pestphp/pest-plugin": true,
             "phpstan/extension-installer": true
         }
-    },
+    },  
     "extra": {
         "laravel": {
             "providers": [
