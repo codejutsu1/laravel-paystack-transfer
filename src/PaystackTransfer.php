@@ -24,15 +24,23 @@ class PaystackTransfer
         $this->public_key = config('paystack-transfer.public_key');
     }
 
+    public function createTransferRecipient(array $para): array
+    {
+        //$data = ['type', 'name', 'account_number', 'bank_code', 'currency'];
+        return Http::withToken($this->secret_key)
+                    ->post("https://api.paystack.co/transferrecipient", $para)
+                    ->json();
+    }
+
     public function listTransferRecipient(int $perPage=null, int $page=null, string $from=null, string $to=null): self
     {
         $this->response = Http::withToken($this->secret_key)
-                    ->get("https://api.paystack.co/transferrecipient", [
-                        "perPage" => $perPage,
-                        "page" => $page,
-                        "from" => $from,
-                        "to" => $to,
-                    ]);
+                                ->get("https://api.paystack.co/transferrecipient", [
+                                    "perPage" => $perPage,
+                                    "page" => $page,
+                                    "from" => $from,
+                                    "to" => $to,
+                                ]);
 
         return $this;
     }
@@ -40,8 +48,36 @@ class PaystackTransfer
     public function fetchTransferRecipient(int|string $id_or_code): array 
     {
         return Http::withToken($this->secret_key)
-                            ->get("https://api.paystack.co/transferrecipient/{$id_or_code}")
-                            ->json();
+                    ->get("https://api.paystack.co/transferrecipient/{$id_or_code}")
+                    ->json();
+    }
+
+    public function updateTransferRecipient(int|string $id_or_code, array $para): array
+    {
+        return Http::withToken($this->secret_key)
+                    ->put("https://api.paystack.co/transferrecipient/{$id_or_code}", $para)
+                    ->json();
+    }
+
+    public function deleteTransferRecipient(int|string $id_or_code): array
+    {
+        return Http::withToken($this->secret_key)
+                    ->delete("https://api.paystack.co/transferrecipient/{$id_or_code}")
+                    ->json();
+    }
+
+    public function getBanks(array $queryParameters=[]): array
+    {
+        return Http::withToken($this->secret_key)
+                ->get("https://api.paystack.co/bank", $queryParameters)
+                ->json();
+    }
+
+    public function verifyAccountNumber(array $queryParameters): array 
+    {
+        return Http::withToken($this->secret_key)
+                    ->get("https://api.paystack.co/bank/resolve", $queryParameters)
+                    ->json();
     }
 
     public function json(): array
