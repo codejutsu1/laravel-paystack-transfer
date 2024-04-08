@@ -5,55 +5,54 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/codejutsu1/laravel-paystack-transfer/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/codejutsu1/laravel-paystack-transfer/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/codejutsu1/laravel-paystack-transfer.svg?style=flat-square)](https://packagist.org/packages/codejutsu1/laravel-paystack-transfer)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-paystack-transfer.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-paystack-transfer)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+> A Laravel package to make single and bulk transfers with [Paystack](https://paystack.com/docs/transfers/).
 
 ## Installation
 
-You can install the package via composer:
+[PHP](https://www.php.net/) 8.2+ and [Composer](https://getcomposer.org/) are required.
 
-```bash
-composer require codejutsu1/laravel-paystack-transfer
-```
+Compatible with Laravel 9, 10, 11.
 
-You can publish and run the migrations with:
+- Install the package via composer:
 
-```bash
-php artisan vendor:publish --tag="laravel-paystack-transfer-migrations"
-php artisan migrate
-```
+    ```bash
+    composer require codejutsu1/laravel-paystack-transfer
+    ```
 
-You can publish the config file with:
+-`Optional` you can publish the config file via this command:
 
-```bash
-php artisan vendor:publish --tag="laravel-paystack-transfer-config"
-```
+    ```bash
+    php artisan paystack-transfer:install
+    ```
 
-This is the contents of the published config file:
+    A configuration file named `paystack-transfer.php` will be placed in the `config` folder of your laravel application:
 
-```php
-return [
-];
-```
+    ```php
+    <?php
 
-Optionally, you can publish the views using
+    // config for Codejutsu1/LaravelPaystackTransfer
+    return [
+        /**
+         * Public Key From Paystack Dashboard
+         *
+         */
+        'public_key' => env('PAYSTACK_PUBLIC_KEY'),
 
-```bash
-php artisan vendor:publish --tag="laravel-paystack-transfer-views"
-```
+        /**
+         * Secret Key From Paystack Dashboard
+         *
+         */
+        'secret_key' => getenv('PAYSTACK_SECRET_KEY'),
 
+    ];
+
+    ```
 ## Usage
+Open your `.env` file and add your public and secret API keys. 
 
-```php
-$paystackTransfer = new Codejutsu1\LaravelPaystackTransfer();
-echo $paystackTransfer->echoPhrase('Hello, Codejutsu1/LaravelPaystackTransfer!');
+```
+PAYSTACK_PUBLIC_KEY=
+PAYSTACK_SECRET_KEY=
 ```
 
 ## Testing
