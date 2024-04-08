@@ -1,10 +1,14 @@
 {
     "name": "codejutsu1/laravel-paystack-transfer",
-    "description": "An Elegant laravel package for paystack transfers.",
+    "description": "An Elegant laravel package to make single and bulk transfers using paystack.",
     "keywords": [
         "Daniel Dunu",
         "laravel",
-        "laravel-paystack-transfer"
+        "laravel-paystack-transfer",
+        "single and bulk transfers",
+        "paystack transfer",
+        "transfer recipient",
+        "bank api"
     ],
     "homepage": "https://github.com/codejutsu1/laravel-paystack-transfer",
     "license": "MIT",
