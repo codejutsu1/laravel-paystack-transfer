@@ -19,7 +19,7 @@ Compatible with Laravel 9, 10, 11.
     composer require codejutsu1/laravel-paystack-transfer
     ```
 
--`Optional` you can publish the config file via this command:
+- `Optional` you can publish the config file via this command:
 
     ```bash
     php artisan paystack-transfer:install
