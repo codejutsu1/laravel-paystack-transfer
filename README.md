@@ -50,15 +50,22 @@ Compatible with Laravel 9, 10, 11.
 
 ### Table of Contents
 - Transfer Recipient
-- Get Banks
-- Verify Account Number
-- Single Transfer 
-- Finalize Transfers
-- Bulk Transfer
+    - Create Single Transfer Recipient
+    - Create Bulk Transfer Recipient
+    - List Transfer Recipients
+    - Fetch a Transfer Recipient
+    - Update a Transfer Recipient
+    - Delete a Transfer Recipient
+- Banks
+    - Get Banks API
+    - Verify Account Number
 - Transfers
+    - Single Transfers
+    - Finalize a Transfer (When OTP is enabled for single Transfers)
+    - Bulk Transfers
     - List Transfers
-    - Fetch Transfers
-    - Verify Transfers
+    - Fetch a Transfer
+    - Verify a Transfer
 
 ## Usage
 Open your `.env` file and add your public and secret API keys. 
