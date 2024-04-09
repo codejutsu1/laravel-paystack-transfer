@@ -408,6 +408,12 @@ Get details of a transfer. You need to provide transfer id.
 <?php
 
 $response = PaystackTransfer::fetchTransfer("14938");
+
+if($response['status'] == true){
+    //Your logic
+}else{
+    return redirect()->back()->withMessage($response['message']);
+}
 ```
 ### Verify Transfer
 Verify the status of a transfer. You need to provide transfer reference.
