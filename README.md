@@ -112,7 +112,19 @@ $data = [
     "currency" => "NGN", // Recipient Currency
 ];
 
+$response = PaystackTransfer::createTransferRecipient($data);
+
+if($response['status'] === true){
+    // Your code Logic
+}else{
+    return redirect()->back()->withMessage($response['message']);
+}
+
 ```
+
+> [!Note]
+> For more information, visit [Paystack Create Transfer Recipient](https://paystack.com/docs/transfers/creating-transfer-recipients/).
+
 > You can get bank codes by using the [list banks]() methods. 
 ## Testing
 
