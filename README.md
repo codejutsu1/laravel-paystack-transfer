@@ -160,7 +160,7 @@ if($response['status'] == true){
 ```
 
 ### List Transfer Recipients
-List all transfer recipients:
+To list all transfer recipients:
 ```php
 <?php
 
@@ -175,7 +175,7 @@ if($response['status'] == true){
     return redirect()->back()->withMessage($response['message']);
 }
 ```
-You can also add query parameters as an array:
+You can also provide query parameters as an array:
 ```php
 <?php
 
@@ -187,6 +187,81 @@ $queryParameters = [
 ];
 
 $reponse = PaystackTransfer::listTransferRecipients($queryParameters);
+```
+
+### Fetch a Transfer Recipient
+To fetch a transfer recipient, you need to provide the id or recipient code of the recipient:
+```php
+<?php
+
+$response = PaystackTransfer::fetchTransferRecipients("RCP_2x5j67tnnw1t98k");
+
+if($response['status'] == true){
+    // Your code logic here
+}else{
+    return redirect()->back()->withMessage($response['message']);
+}
+```
+### Update a Transfer Recipient
+To update a transfer recipient details, you need to provide the id or recipient code of the recipient alongside the details to be updated (name and/or email):
+
+```php
+<?php
+
+$data = [
+    'email' => 'danieldunu001@gmail.com'
+];
+
+$response = transfer()->updateTransferRecipient("RCP_2x5j67tnnw1t98k", $data);
+
+if($response['status'] == true){
+    // Your code logic here
+}else{
+    return redirect()->back()->withMessage($response['message']);
+}
+```
+
+### Delete a Transfer Recipient
+To delete a transfer recipient, you need to provide the id or recipient code of the recipient:
+
+```php
+<?php
+
+$response = transfer()->deleteTransferRecipient("RCP_2x5j67tnnw1t98k");
+
+if($response['status'] == true){
+    // Your code logic here
+}else{
+    return redirect()->back()->withMessage($response['message']);
+}
+```
+
+## Banks
+### Get Banks API
+
+To get lists of banks in Nigeria:
+
+```php
+<?php
+
+$response = transfer()->getBanks();
+
+if($response['status'] == true){
+    $banks = collect($response['data']); // To a collection.
+    // Your logic
+}else{
+    return redirect()->back()->withMessage($response['message']);
+}
+```
+
+You can provide query parameters as an array
+
+```php
+<?php 
+
+$queryParameters = [
+
+];
 ```
 ## Testing
 
