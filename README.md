@@ -97,6 +97,7 @@ $transfers = [
 
 2. In single transfer, you need to provide the above array as an argument while in bulk transfer, you need to provide the above array as an argument but in batches.
 
+## Transfer Recipient
 ### Create Single Transfer Recipient
 
 To create a single transfer recipient:
