@@ -166,13 +166,15 @@ To list all transfer recipients:
 ```php
 <?php
 
-$reponse = PaystackTransfer::listTransferRecipients();
+$response = PaystackTransfer::listTransferRecipients();
 
 if($response['status'] == true){
     // Eg of code logic
     $transferRecipients = collect($response['data']);
 
-    $transferRecipient = $transferRecipients->firstWhere('recipient_code', 'RCP_2x5j67tnnw1t98k');
+    $transferRecipient = $transferRecipients->pluck('recipient_code');
+
+    return $transferRecipient;
 }else{
     return redirect()->back()->withMessage($response['message']);
 }
@@ -188,7 +190,9 @@ $queryParameters = [
     "to" => "2016-09-24T00:00:05.000Z", //dateTime(optional), Timestamp to stop listing transfer recipient
 ];
 
-$reponse = PaystackTransfer::listTransferRecipients($queryParameters);
+$response = PaystackTransfer::listTransferRecipients($queryParameters);
+
+return $response;
 ```
 
 ### Fetch a Transfer Recipient
@@ -196,7 +200,7 @@ To fetch a transfer recipient, you need to provide the id or recipient code of t
 ```php
 <?php
 
-$response = PaystackTransfer::fetchTransferRecipients("RCP_2x5j67tnnw1t98k");
+$response = PaystackTransfer::fetchTransferRecipient("RCP_2x5j67tnnw1t98k");
 
 if($response['status'] == true){
     // Your code logic here
@@ -271,6 +275,16 @@ $response = transfer()->getBanks($queryParameters);
 
 ```
 
+### Get Bank Code
+To get a bank code, you need to provide the bank name from the [get bank API]():
+```php
+<?php 
+
+$code = transfer()->getBankCode("United Bank For Africa");
+
+return $code;
+```
+
 ### Verify Account Number
 
 To confirm the account belongs to the right customer, you need to provide the account number and the bank code of the customer as both strings:
@@ -278,7 +292,7 @@ To confirm the account belongs to the right customer, you need to provide the ac
 ```php
 <?php
 
-$response = PaystackTransfer::verifyAccount(accountNumber:"2134288420", bankCode:"022");
+$response = PaystackTransfer::verifyAccountNumber(accountNumber:"2134288420", bankCode:"022");
 
 if($response['status'] == true){
     //Your logic

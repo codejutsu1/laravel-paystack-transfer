@@ -89,14 +89,23 @@ class PaystackTransfer
 
     public function getBanks(array $queryParameters=[]): array
     {
-        return $this->request->get($this->bank_url, $queryParameters)->json();
+        return $this->request->get($this->bank_url, ['perPage' => 2])->json();
+    }
+
+    public function getBankCode(string $bankName): string
+    {
+        $response = $this->request->get($this->bank_url)->json();
+
+        $code = collect($response['data'])->where('name', $bankName)->value('code');
+
+        return $code;
     }
 
     public function verifyAccountNumber(string $accountNumber, string $bankCode): array 
     {
         return $this->request->get($this->bank_url."/resolve", [
-                        "accountNumber" => $accountNumber,
-                        "bankCode" => $bankCode
+                        "account_number" => $accountNumber,
+                        "bank_code" => $bankCode
                     ])
                     ->json();
     }
