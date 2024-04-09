@@ -270,7 +270,7 @@ $response = transfer()->getBanks($queryParameters);
 
 ```
 
-### Verify Account 
+### Verify Account Number
 
 To confirm the account belongs to the right customer, you need to provide the account number and the bank code of the customer as both strings:
 
@@ -288,11 +288,11 @@ if($response['status'] == true){
 ## Transfers
 ### Single Transfers
 To make a single transfers, you need these provide four parameters as an array:
-    - reason
-    - amount
-    - reference 
-    - recipient
-The `currency` is `NGN` by default. You can override the default currency by adding it to the array. For the `source` value, we took care of that(`balance`).
+- reason
+- amount
+- reference 
+- recipient
+The `currency` is `NGN` by default. You can override the default currency by adding it to the array. For the `source`, we took care of that merging the array with a value of `balance`.
 
 ```php
 <?php
@@ -315,7 +315,7 @@ if($response['status'] == true){
 ```
 
 ### Finalize a Transfer
-When you make a single transfer with OTP enabled, you will have to finalized your transfer by providing the OTP and the transfer code as both strings:
+After making a single transfer with OTP enabled, you will have to finalized your transfer by providing the OTP and the transfer code as both strings:
 
 ```php
 <?php
@@ -329,6 +329,15 @@ if($response['status'] == true){
 }
 ```
 ### Bulk Transfer
+To send money to multiple recipients, you need to make request in `batches`. A `batch` is an array of `transfer` objects (or array using this package). A `batch` should not contain more than `100 arrays or objects` and should be sent `every 5 seconds`.
+
+But you don't have to worry, just pass the batch as a parameter. Even if your batch contains more than 100 items, this package will break it down into a batches each containing not more than 100 arrays and make a request every 5 seconds.
+
+```php
+<?php
+
+$hello = "hey";
+```
 ## Testing
 
 ```bash
