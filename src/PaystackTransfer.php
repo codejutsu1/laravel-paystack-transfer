@@ -30,7 +30,6 @@ class PaystackTransfer
         $this->setKeys();
 
         $this->transfer_parameters = [
-            "currency" => "NGN",
             "source" => "balance"
         ];
 
@@ -93,23 +92,31 @@ class PaystackTransfer
         return $this->request->get($this->bank_url, $queryParameters)->json();
     }
 
-    public function verifyAccountNumber(array $queryParameters): array 
+    public function verifyAccountNumber(string $accountNumber, string $bankCode): array 
     {
-        return $this->request->get($this->bank_url."/resolve", $queryParameters)
+        return $this->request->get($this->bank_url."/resolve", [
+                        "accountNumber" => $accountNumber,
+                        "bankCode" => $bankCode
+                    ])
                     ->json();
     }
 
     public function singleTransfer(array $parameters): array 
     {
+        $parameters = array_merge($this->transfer_parameters, $parameters);
+
         return $this->request->post($this->transfer_url, $parameters)->json();
     }
 
     /**
      * If OTP Enabled
      */
-    public function finalizeTransfer(array $parameters): array
+    public function finalizeTransfer(string $transfer_code, string $otp): array
     {
-        return $this->request->post($this->transfer_url . "/finalize_transfer", $parameters)
+        return $this->request->post($this->transfer_url . "/finalize_transfer", [
+                        "transfer_code" => $transfer_code,
+                        "otp" => $otp
+                    ])
                     ->json();
     }
 

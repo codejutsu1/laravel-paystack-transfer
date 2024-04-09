@@ -255,15 +255,80 @@ if($response['status'] == true){
 }
 ```
 
-You can provide query parameters as an array
+You can provide query parameters as an array:
 
 ```php
 <?php 
 
 $queryParameters = [
-
+    "country" => "ghana", //String(Optional), nigeria or ghana, default is nigeria
+    "perPage" => 50,  //Integer(optional), Records per page.
+    //Other query parameters in the documentation.
 ];
+
+$response = transfer()->getBanks($queryParameters);
+
 ```
+
+### Verify Account 
+
+To confirm the account belongs to the right customer, you need to provide the account number and the bank code of the customer as both strings:
+
+```php
+<?php
+
+$response = PaystackTransfer::verifyAccount(accountNumber:"2134288420", bankCode:"022");
+
+if($response['status'] == true){
+    //Your logic
+}else{
+    return redirect()->back()->withMessage($response['message']);
+}
+```
+## Transfers
+### Single Transfers
+To make a single transfers, you need these provide four parameters as an array:
+    - reason
+    - amount
+    - reference 
+    - recipient
+The `currency` is `NGN` by default. You can override the default currency by adding it to the array. For the `source` value, we took care of that(`balance`).
+
+```php
+<?php
+
+$parameters = [
+	"reason": "Savings",
+	"amount": 300000, //NGN3000, converted to kobo. 
+	"reference": "your-unique-reference",
+	"recipient": "RCP_1a25w1h3n0xctjg"
+];
+
+$response = PaystackTransfer::singleTransfer($parameters);
+
+if($response['status'] == true){
+    //Your logic
+}else{
+    return redirect()->back()->withMessage($response['message']);
+}
+
+```
+
+### Finalize a Transfer
+When you make a single transfer with OTP enabled, you will have to finalized your transfer by providing the OTP and the transfer code as both strings:
+
+```php
+<?php
+
+$response = transfer()->finalizeTransfer(transfer_code:"TRF_vsyqdmlzble3uii", otp: "930322");
+
+if($response['status'] == true){
+    //Your logic
+}else{
+    return redirect()->back()->withMessage($response['message']);
+}
+```
+### Bulk Transfer
 ## Testing
 
 ```bash
