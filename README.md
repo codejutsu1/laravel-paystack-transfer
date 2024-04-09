@@ -78,10 +78,11 @@ PAYSTACK_SECRET_KEY=
 ## Payment Flow
 
 1. To make a transfer, either single or in bulk using this package, you need to provide an array of four values:
-    - Amount - Amount to be sent.
+    - amount - Amount to be sent.
     - reference (Transfer Reference) - A unique identifier which will be used to track your transactions. This package provides a helper function, `generateTransferReference()`, which provides a UUID you can use as a unique reference.
     - recipient (Transfer Recipient) - A transfer recipient is a beneficiary that you can send money to. To create a transfer recipient, you need to collect their details first.
     - reason - Reason for the transfer.
+    - currency - (Optional) `NGN` by default but you can specify your currency.
 
 ```php
 <?php
@@ -94,9 +95,6 @@ $transfers = [
 ];
 
 ```
-
-2. In single transfer, you need to provide the above array as an argument while in bulk transfer, you need to provide the above array as an argument but in batches.
-
 ## Transfer Recipient
 ### Create Single Transfer Recipient
 
@@ -123,9 +121,12 @@ if($response['status'] == true){
 
 ```
 
-> [!Note]
-> For more information, visit [Paystack Create Transfer Recipient](https://paystack.com/docs/transfers/creating-transfer-recipients/).
+> [!IMPORTANT]
+> Store the recipient_code in your database alongside the recipient.
+
 > You can get bank codes by using the [list banks]() methods. 
+
+> For more information, visit [Paystack Create Transfer Recipient](https://paystack.com/docs/transfers/creating-transfer-recipients/).
 
 ### Create Bulk Transfer Recipient
 
