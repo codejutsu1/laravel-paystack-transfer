@@ -114,7 +114,7 @@ $data = [
 
 $response = PaystackTransfer::createTransferRecipient($data);
 
-if($response['status'] === true){
+if($response['status'] == true){
     // Your code Logic
 }else{
     return redirect()->back()->withMessage($response['message']);
@@ -124,8 +124,57 @@ if($response['status'] === true){
 
 > [!Note]
 > For more information, visit [Paystack Create Transfer Recipient](https://paystack.com/docs/transfers/creating-transfer-recipients/).
-
 > You can get bank codes by using the [list banks]() methods. 
+
+### Create Bulk Transfer Recipient
+
+You can create multiple transfer recipient in batches. To create multiple transfer recipient:
+
+```php
+<?php 
+
+$data = [
+    [
+        "type" => "nuban", //Recipient type, either nuban, ghipps, mobile_money or bass
+        "name" => "Daniel Dunu", //Recipient name
+        "account_number" => "01000000010", // Recipient Account Number
+        "bank_code" => "058", // Recipient bank code
+        "currency" => "NGN", // Recipient Currency
+    ],
+    [
+        "type" => "ghipps", //Recipient type, either nuban, ghipps, mobile_money or bass
+        "name" => "John Doe", //Recipient name
+        "account_number" => "02000000020", // Recipient Account Number
+        "bank_code" => "018", // Recipient bank code
+        "currency" => "NGN", // Recipient Currency
+    ],
+];
+
+$response = PaystackTransfer::bulkTransferRecipient($data);
+
+if($response['status'] == true){
+    // Your code Logic
+}else{
+    return redirect()->back()->withMessage($response['message']);
+}
+```
+
+### List Transfer Recipients
+List all transfer recipients:
+```php
+<?php
+
+$reponse = PaystackTransfer::listTransferRecipient();
+
+if($response['status'] == true){
+    // Eg of code logic
+    $transferRecipients = collect($response['data']);
+
+    $transferRecipient = $transferRecipients->firstWhere('recipient_code', 'RCP_2x5j67tnnw1t98k');
+}else{
+    return redirect()->back()->withMessage($response['message']);
+}
+```
 ## Testing
 
 ```bash
