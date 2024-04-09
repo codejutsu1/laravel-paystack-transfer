@@ -65,7 +65,7 @@ class PaystackTransfer
                     ->json();
     }
 
-    public function listTransferRecipient(array $queryParameters=[]): array
+    public function listTransferRecipients(array $queryParameters=[]): array
     {
         return $this->request->get($this->transfer_recipient_url, $queryParameters)->json();
     }

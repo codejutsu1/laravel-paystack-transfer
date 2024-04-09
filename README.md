@@ -164,7 +164,7 @@ List all transfer recipients:
 ```php
 <?php
 
-$reponse = PaystackTransfer::listTransferRecipient();
+$reponse = PaystackTransfer::listTransferRecipients();
 
 if($response['status'] == true){
     // Eg of code logic
@@ -174,6 +174,19 @@ if($response['status'] == true){
 }else{
     return redirect()->back()->withMessage($response['message']);
 }
+```
+You can also add query parameters as an array:
+```php
+<?php
+
+$queryParameters = [
+    "perPage" => 30, //Integer(optional), Records per page.
+    "page" => 2, //Integer(optional), exact page to retrieve.
+    "from" => "2016-09-24T00:00:05.000Z", //dateTime(optional), Timestamp to start listing transfer recipient.
+    "to" => "2016-09-24T00:00:05.000Z", //dateTime(optional), Timestamp to stop listing transfer recipient
+];
+
+$reponse = PaystackTransfer::listTransferRecipients($queryParameters);
 ```
 ## Testing
 
