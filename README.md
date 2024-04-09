@@ -329,7 +329,7 @@ if($response['status'] == true){
 }
 ```
 ### Bulk Transfer
-To send money to multiple recipients, you need to make request in `batches`. A `batch` is an array of `transfer` objects (or array using this package). A `batch` should not contain more than `100 arrays or objects` and should be sent `every 5 seconds`.
+To send money to multiple recipients, you need to make request in `batches`. A `batch` is an array of arrays containing the `transfer parameters`. A `batch` should not contain more than `100 arrays` and should be sent `every 5 seconds`.
 
 But you don't have to worry, just pass the batch as a parameter. Even if your batch contains more than 100 items, this package will break it down into a batches each containing not more than 100 arrays and make a request every 5 seconds.
 
