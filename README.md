@@ -48,7 +48,15 @@ Compatible with Laravel 9, 10, 11.
 
     ```
 
-### Table of Contents
+## Usage
+Open your `.env` file and add your public and secret API keys. 
+
+```
+PAYSTACK_PUBLIC_KEY=
+PAYSTACK_SECRET_KEY=
+```
+
+## Table of Contents
 - Transfer Recipient
     - Create Single Transfer Recipient
     - Create Bulk Transfer Recipient
@@ -67,13 +75,27 @@ Compatible with Laravel 9, 10, 11.
     - Fetch a Transfer
     - Verify a Transfer
 
-## Usage
-Open your `.env` file and add your public and secret API keys. 
+## Payment Flow
+
+1. To make a transfer, either single or in bulk using this package, you need to provide an array of four values:
+- Amount - Amount to be sent.
+- reference (Transfer Reference) - A unique identifier which will be used to track your transactions. This package provides a helper function, `generateTransferReference()`, which provides a UUID you can use as a unique reference.
+- recipient (Transfer Recipient) - A transfer recipient is a beneficiary. To create a transfer recipient, you need to collect their details first.
+- reason - Reason for the transfer.
+
+```php
+<?php
+
+$transfers = [
+    "amount": "37800",
+    "reference": "your-unique-reference", 
+    "recipient": "RCP_t0ya41mp35flk40", 
+    "reason": "Holiday Flexing" 
+];
 
 ```
-PAYSTACK_PUBLIC_KEY=
-PAYSTACK_SECRET_KEY=
-```
+
+2. 
 
 ## Testing
 
