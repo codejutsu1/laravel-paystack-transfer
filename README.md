@@ -255,7 +255,7 @@ if($response['status'] == true){
 }
 ```
 
-You can provide query parameters as an array:
+You can also provide query parameters as an array:
 
 ```php
 <?php 
@@ -292,6 +292,7 @@ To make a single transfers, you need these provide four parameters as an array:
 - amount
 - reference 
 - recipient
+
 The `currency` is `NGN` by default. You can override the default currency by adding it to the array. For the `source`, we took care of that merging the array with a value of `balance`.
 
 ```php
@@ -331,12 +332,95 @@ if($response['status'] == true){
 ### Bulk Transfer
 To send money to multiple recipients, you need to make request in `batches`. A `batch` is an array of arrays containing the `transfer parameters`. A `batch` should not contain more than `100 arrays` and should be sent `every 5 seconds`.
 
-But you don't have to worry, just pass the batch as a parameter. Even if your batch contains more than 100 items, this package will break it down into a batches each containing not more than 100 arrays and make a request every 5 seconds.
+But you don't have to worry about that, just pass the batch as a parameter. Even if your batch contains more than 100 items, this package will break it down into a batches each containing not more than 100 arrays and make a request every 5 seconds.
 
 ```php
 <?php
 
-$hello = "hey";
+$transfers = [
+    [
+        "amount"=> 20000,
+        "reference"=> "588YtfftReF355894J",
+        "reason"=> "Why not?",
+        "recipient"=> "RCP_2tn9clt23s7qr28",    
+    ],
+    [
+        "amount"=> 30000,
+        "reference"=> "YunoTReF35e0r4J",
+        "reason"=> "Because I can",
+        "recipient"=> "RCP_1a25w1h3n0xctjg",    
+    ],
+    [
+        "amount"=> 40000,
+        "reference"=> generateTransferReference(),
+        "reason"=> "Go buy your mama a house",
+        "recipient"=> "RCP_aps2aibr69caua7",
+    ]
+];
+
+/**
+ * Returns an array of arrays.
+*/
+$response = PaystackTransfer::bulkTransfer($transfers);
+
+// For batch with less than 100 arrays
+
+if($response['status'] == true){
+    //Your logic
+}else{
+    return redirect()->back()->withMessage($response['message']);
+}
+
+```
+> [!Note]
+> You need to set up webhooks to keep track of your transfers.
+### List Transfers
+
+Paystack gives you the option to list all your transfers:
+```php
+<?php
+
+$response = PaystackTransfer::listTransfers();
+
+if($response['status'] == true){
+    //Your logic
+}else{
+    return redirect()->back()->withMessage($response['message']);
+}
+
+```
+You can also provide query parameters as an array:
+```php
+$queryParameters = [
+    "perPage" => 30, //Integer(optional), Records per page.
+    "page" => 2, //Integer(optional), exact page to retrieve.
+    "customer" => "12121", //String(optional), filter by id.
+    "from" => "2016-09-24T00:00:05.000Z", //dateTime(optional), Timestamp to start listing transfer recipient.
+    "to" => "2016-09-24T00:00:05.000Z", //dateTime(optional), Timestamp to stop listing transfer recipient
+];
+
+$response = PaystackTransfer::listTransfers($queryParameters);
+```
+
+### Fetch a Transfer
+Get details of a transfer. You need to provide transfer id.
+```php
+<?php
+
+$response = PaystackTransfer::fetchTransfer("14938");
+```
+### Verify Transfer
+Verify the status of a transfer. You need to provide transfer reference.
+```php
+
+$response = PaystackTransfer::verifyTransfer("your_reference");
+
+if($response['status'] == true){
+    //Your logic
+}else{
+    return redirect()->back()->withMessage($response['message']);
+}   
+
 ```
 ## Testing
 

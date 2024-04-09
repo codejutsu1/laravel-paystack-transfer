@@ -141,7 +141,7 @@ class PaystackTransfer
         return $response;
     }
 
-    public function listTransfers(array $queryParameters): array
+    public function listTransfers(array $queryParameters=[]): array
     {
         return $this->request->get($this->transfer_url, $queryParameters)
                     ->json();
