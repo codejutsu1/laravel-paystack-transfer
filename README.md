@@ -68,13 +68,13 @@ PAYSTACK_SECRET_KEY=
     - [Get Banks API](#get-banks-api)
     - [Get Bank Code](#get-bank-code)
     - [Verify Account Number](#verify-account-number)
-- Transfers
-    - Single Transfers
-    - Finalize a Transfer (When OTP is enabled for single Transfers)
-    - Bulk Transfers
-    - List Transfers
-    - Fetch a Transfer
-    - Verify a Transfer
+- [Transfers](#transfers)
+    - [Single Transfers](#single-transfers)
+    - [Finalize a Transfer](#finalize-a-transfer) (When OTP is enabled for single Transfers)
+    - [Bulk Transfers](#bulk-transfers)
+    - [List Transfers](#list-transfers)
+    - [Fetch a Transfer](#fetch-a-transfer)
+    - [Verify a Transfer](#verify-a-transfer)
 
 ## Payment Flow
 
