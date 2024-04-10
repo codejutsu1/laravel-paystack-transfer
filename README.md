@@ -285,6 +285,8 @@ $response = transfer()->getBanks($queryParameters);
 
 ```
 
+> For more information, visit [Paystack List Banks API](https://paystack.com/docs/api/miscellaneous/#bank).
+
 ### Get Bank Code
 To get a bank code, you need to provide the bank name from the [get bank API]():
 ```php
@@ -310,6 +312,9 @@ if($response['status'] == true){
     return redirect()->back()->withMessage($response['message']);
 }
 ```
+> [!NOTE]
+> For more information, visit [Paystack Resolve Account](https://paystack.com/docs/api/verification/#resolve-account).
+
 ## Transfers
 ### Single Transfers
 To make a single transfers, you need these provide four parameters as an array:
