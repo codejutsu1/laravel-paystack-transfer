@@ -66,7 +66,8 @@ PAYSTACK_SECRET_KEY=
     - [Delete a Transfer Recipient](#delete-a-transfer-recipient)
 - [Banks](#banks)
     - [Get Banks API](#get-banks-api)
-    - Verify Account Number
+    - [Get Bank Code](#get-bank-code)
+    - [Verify Account Number](#verify-account-number)
 - Transfers
     - Single Transfers
     - Finalize a Transfer (When OTP is enabled for single Transfers)
