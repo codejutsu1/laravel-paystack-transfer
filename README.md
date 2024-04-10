@@ -57,9 +57,9 @@ PAYSTACK_SECRET_KEY=
 ```
 
 ## Table of Contents
-- Transfer Recipient
-    - Create Single Transfer Recipient
-    - Create Bulk Transfer Recipient
+- [Transfer Recipient](#transfer-recipient)
+    - [Create Single Transfer Recipient](#create-single-transfer-recipient)
+    - [Create Bulk Transfer Recipient](#create-bulk-transfer-recipient)
     - List Transfer Recipients
     - Fetch a Transfer Recipient
     - Update a Transfer Recipient
@@ -79,7 +79,7 @@ PAYSTACK_SECRET_KEY=
 
 1. To make a transfer, either single or in bulk using this package, you need to provide an array of four values:
     - amount - Amount to be sent.
-    - reference (Transfer Reference) - A unique identifier which will be used to track your transactions. This package provides a helper function, `generateTransferReference()`, which provides a UUID you can use as a unique reference.
+    - reference (Transfer Reference) - A unique identifier which will be used to track your transactions. This package provides a helper function, `generateTransferReference()`, which returns a UUID you can use as a unique reference.
     - recipient (Transfer Recipient) - A transfer recipient is a beneficiary that you can send money to. To create a transfer recipient, you need to collect their details first.
     - reason - Reason for the transfer.
     - currency - (Optional) `NGN` by default but you can specify your currency.
