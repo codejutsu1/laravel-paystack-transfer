@@ -284,11 +284,11 @@ $queryParameters = [
 $response = transfer()->getBanks($queryParameters);
 
 ```
-
+> [!NOTE]
 > For more information, visit [Paystack List Banks API](https://paystack.com/docs/api/miscellaneous/#bank).
 
 ### Get Bank Code
-To get a bank code, you need to provide the bank name from the [get bank API]():
+To get a bank code, you need to provide the bank name from the [get bank API](https://paystack.com/docs/api/miscellaneous/#bank):
 ```php
 <?php 
 
@@ -345,6 +345,9 @@ if($response['status'] == true){
 
 ```
 
+> [!NOTE]
+> For more information, visit [Paystack Single Transfers](https://paystack.com/docs/transfers/single-transfers/).
+
 ### Finalize a Transfer
 After making a single transfer with OTP enabled, you will have to finalized your transfer by providing the OTP and the transfer code as both strings:
 
@@ -359,6 +362,9 @@ if($response['status'] == true){
     return redirect()->back()->withMessage($response['message']);
 }
 ```
+> [!NOTE]
+> For more information, visit [Paystack Finalize Transfers](https://paystack.com/docs/api/transfer/#finalize).
+
 ### Bulk Transfers
 To send money to multiple recipients, you need to make request in `batches`. A `batch` is an array of arrays containing the `transfer parameters`. A `batch` should not contain more than `100 arrays` and should be sent `every 5 seconds`.
 
@@ -404,6 +410,8 @@ if($response['status'] == true){
 ```
 > [!Note]
 > You need to set up webhooks to keep track of your transfers.
+> For more information, visit [Paystack Bulk Transfers](https://paystack.com/docs/transfers/bulk-transfers/).
+
 ### List Transfers
 
 Paystack gives you the option to get the list of all your transfers:
@@ -431,6 +439,8 @@ $queryParameters = [
 
 $response = PaystackTransfer::listTransfers($queryParameters);
 ```
+> [!NOTE]
+> For more information, visit [Paystack List Transfers](https://paystack.com/docs/api/transfer/#list).
 
 ### Fetch a Transfer
 Get details of a transfer. You need to provide transfer id.
@@ -445,6 +455,9 @@ if($response['status'] == true){
     return redirect()->back()->withMessage($response['message']);
 }
 ```
+> [!NOTE]
+> For more information, visit [Paystack Fetch Transfers](https://paystack.com/docs/api/transfer/#fetch).
+
 ### Verify a Transfer
 Verify the status of a transfer. You need to provide transfer reference.
 ```php
@@ -458,6 +471,8 @@ if($response['status'] == true){
 }   
 
 ```
+> [!NOTE]
+> For more information, visit [Paystack Verify Transfers](https://paystack.com/docs/api/transfer/#verify).
 ## Testing
 
 ```bash
