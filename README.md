@@ -60,12 +60,12 @@ PAYSTACK_SECRET_KEY=
 - [Transfer Recipient](#transfer-recipient)
     - [Create Single Transfer Recipient](#create-single-transfer-recipient)
     - [Create Bulk Transfer Recipient](#create-bulk-transfer-recipient)
-    - List Transfer Recipients
-    - Fetch a Transfer Recipient
-    - Update a Transfer Recipient
-    - Delete a Transfer Recipient
-- Banks
-    - Get Banks API
+    - [List Transfer Recipients](#list-transfer-recipients)
+    - [Fetch a Transfer Recipient](#fetch-a-transfer-recipient)
+    - [Update a Transfer Recipient](#update-a-transfer-recipient)
+    - [Delete a Transfer Recipient](#delete-a-transfer-recipient)
+- [Banks](#banks)
+    - [Get Banks API](#get-banks-api)
     - Verify Account Number
 - Transfers
     - Single Transfers
