@@ -124,9 +124,6 @@ if($response['status'] == true){
 
 > [!IMPORTANT]
 > Store the recipient_code in your database alongside the recipient.
-
-> You can get bank codes by using the [list banks]() methods. 
-
 > For more information, visit [Paystack Create Transfer Recipient](https://paystack.com/docs/transfers/creating-transfer-recipients/).
 
 ### Create Bulk Transfer Recipient
@@ -161,6 +158,8 @@ if($response['status'] == true){
     return redirect()->back()->withMessage($response['message']);
 }
 ```
+>[!NOTE]
+> For more information, visit [Paystack Bulk Create Transfer Recipient](https://paystack.com/docs/api/transfer-recipient/#bulk)
 
 ### List Transfer Recipients
 To list all transfer recipients:
@@ -195,6 +194,8 @@ $response = PaystackTransfer::listTransferRecipients($queryParameters);
 
 return $response;
 ```
+> [!NOTE]
+> For more information, visit [Paystack List Transfer Recipients](https://paystack.com/docs/api/transfer-recipient/#list).
 
 ### Fetch a Transfer Recipient
 To fetch a transfer recipient, you need to provide the id or recipient code of the recipient:
@@ -209,6 +210,9 @@ if($response['status'] == true){
     return redirect()->back()->withMessage($response['message']);
 }
 ```
+> [!NOTE]
+> For more information, visit [Paystack Fetch Transfer Recipient](https://paystack.com/docs/api/transfer-recipient/#fetch).
+
 ### Update a Transfer Recipient
 To update a transfer recipient details, you need to provide the id or recipient code of the recipient alongside the details to be updated (name and/or email):
 
@@ -228,6 +232,9 @@ if($response['status'] == true){
 }
 ```
 
+> [!NOTE]
+> For more information, visit [Paystack Update Transfer Recipient](https://paystack.com/docs/api/transfer-recipient/#update).
+
 ### Delete a Transfer Recipient
 To delete a transfer recipient, you need to provide the id or recipient code of the recipient:
 
@@ -242,6 +249,8 @@ if($response['status'] == true){
     return redirect()->back()->withMessage($response['message']);
 }
 ```
+> [!NOTE]
+> For more information, visit [Paystack Delete Transfer Recipient](https://paystack.com/docs/api/transfer-recipient/#delete).
 
 ## Banks
 ### Get Banks API
