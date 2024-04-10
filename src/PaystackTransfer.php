@@ -56,12 +56,24 @@ class PaystackTransfer
                     ->json();
     }
 
-    public function bulkTransferRecipient(array $batch): array
+    public function bulkTransferRecipient(array $parameters): array
     {
-        return $this->request->post($this->transfer_recipient_url."/bulk", [
-                        "batch" => $batch
-                    ])
-                    ->json();
+        $batches = $this->batches($parameters);
+
+        $parameters_count = count($parameters) - 1;
+
+        foreach ($batches as $key => $value) {
+            $response[] = $this->request->post($this->transfer_recipient_url."/bulk", [
+                                            "batch" => $value
+                                        ])
+                                        ->json();
+
+            if($key === $parameters_count) break;
+
+            sleep(5);
+        }
+
+        return $response;
     }
 
     public function listTransferRecipients(array $queryParameters=[]): array
@@ -131,9 +143,7 @@ class PaystackTransfer
 
     public function bulkTransfer(array $transfers): array
     {
-        $batch_of = 100;
-
-        $batches = array_chunk($transfers, $batch_of);
+        $batches = $this->batches($transfers);
 
         $transfers_count = count($transfers) - 1;
         
@@ -166,6 +176,15 @@ class PaystackTransfer
     {
         return $this->request->get($this->transfer_url."/verify/{$reference}")
                     ->json();
+    }
+
+    private function batches(array $batch): array
+    {
+        $batch_of = 100;
+
+        $batches = array_chunk($batch, $batch_of);
+    
+        return $batches;
     }
 
     // public function json(): array
