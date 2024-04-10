@@ -78,7 +78,7 @@ PAYSTACK_SECRET_KEY=
 
 ## Payment Flow
 
-1. To make a transfer, either single or in bulk using this package, you need to provide an array of four values:
+1. To make a transfer, either single or in bulk using this package, you need to provide an array of four parameters:
     - amount - Amount to be sent.
     - reference (Transfer Reference) - A unique identifier which will be used to track your transactions. This package provides a helper function, `generateTransferReference()`, which returns a UUID you can use as a unique reference.
     - recipient (Transfer Recipient) - A transfer recipient is a beneficiary that you can send money to. To create a transfer recipient, you need to collect their details first.
@@ -323,7 +323,7 @@ To make a single transfers, you need these provide four parameters as an array:
 - reference 
 - recipient
 
-The `currency` is `NGN` by default. You can override the default currency by adding it to the array. For the `source`, we took care of that merging the array with a value of `balance`.
+The `currency` is `NGN` by default. You can override the default currency by adding it to the array. For the `source`, we took care of that by merging the array with a value of `balance`.
 
 ```php
 <?php
@@ -349,7 +349,7 @@ if($response['status'] == true){
 > For more information, visit [Paystack Single Transfers](https://paystack.com/docs/transfers/single-transfers/).
 
 ### Finalize a Transfer
-After making a single transfer with OTP enabled, you will have to finalized your transfer by providing the OTP and the transfer code as both strings:
+After making a single transfer with `OTP enabled`, you will have to finalized your transfer by providing the `OTP` and the `transfer code` as both strings:
 
 ```php
 <?php
@@ -366,7 +366,7 @@ if($response['status'] == true){
 > For more information, visit [Paystack Finalize Transfers](https://paystack.com/docs/api/transfer/#finalize).
 
 ### Bulk Transfers
-To send money to multiple recipients, you need to make request in `batches`. A `batch` is an array of arrays containing the `transfer parameters`. A `batch` should not contain more than `100 arrays` and should be sent `every 5 seconds`.
+To send money to multiple recipients, you need to make request in `batches`. A `batch` is an array of arrays containing the [transfer parameters](#payment-flow). A `batch` should not contain more than `100 arrays` and should be sent `every 5 seconds`.
 
 But you don't have to worry about that, just pass the batch as a parameter. Even if your batch contains more than 100 items, this package will break it down into a batches each containing not more than 100 arrays and make a request every 5 seconds.
 
@@ -473,6 +473,7 @@ if($response['status'] == true){
 ```
 > [!NOTE]
 > For more information, visit [Paystack Verify Transfers](https://paystack.com/docs/api/transfer/#verify).
+
 ## Testing
 
 ```bash
@@ -485,11 +486,11 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+Feel free to submit Issues (for bugs or suggestions) and Pull Requests(to the dev branch).
 
 ## Security Vulnerabilities
 
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+If you discover a security vulnerability within this package, please send an email to Daniel Dunu at [danieldunu001@gmail.com](mailto:danieldunu001@gmail.com). All security vulnerabilities will be promptly addressed..
 
 ## Credits
 
