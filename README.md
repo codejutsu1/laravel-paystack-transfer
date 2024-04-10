@@ -345,7 +345,7 @@ if($response['status'] == true){
     return redirect()->back()->withMessage($response['message']);
 }
 ```
-### Bulk Transfer
+### Bulk Transfers
 To send money to multiple recipients, you need to make request in `batches`. A `batch` is an array of arrays containing the `transfer parameters`. A `batch` should not contain more than `100 arrays` and should be sent `every 5 seconds`.
 
 But you don't have to worry about that, just pass the batch as a parameter. Even if your batch contains more than 100 items, this package will break it down into a batches each containing not more than 100 arrays and make a request every 5 seconds.
@@ -392,7 +392,7 @@ if($response['status'] == true){
 > You need to set up webhooks to keep track of your transfers.
 ### List Transfers
 
-Paystack gives you the option to list all your transfers:
+Paystack gives you the option to get the list of all your transfers:
 ```php
 <?php
 
@@ -431,7 +431,7 @@ if($response['status'] == true){
     return redirect()->back()->withMessage($response['message']);
 }
 ```
-### Verify Transfer
+### Verify a Transfer
 Verify the status of a transfer. You need to provide transfer reference.
 ```php
 
