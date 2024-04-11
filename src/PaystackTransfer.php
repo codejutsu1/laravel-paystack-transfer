@@ -4,6 +4,9 @@ namespace Codejutsu1\LaravelPaystackTransfer;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\PaystackConnector;
+use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\GetBanksRequest;
+use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\ListTransferRecipientsRequest;
 
 class PaystackTransfer
 {
@@ -25,9 +28,13 @@ class PaystackTransfer
 
     protected string $base_url;
 
+    protected $connector;
+
     public function __construct()
     {
         $this->setKeys();
+
+        $this->connector = new PaystackConnector;
 
         $this->transfer_parameters = [
             "source" => "balance"
@@ -78,7 +85,7 @@ class PaystackTransfer
 
     public function listTransferRecipients(array $queryParameters=[]): array
     {
-        return $this->request->get($this->transfer_recipient_url, $queryParameters)->json();
+        return $this->connector->send(new ListTransferRecipientsRequest)->json();
     }
 
     public function fetchTransferRecipient(int|string $id_or_code): array 
@@ -101,7 +108,7 @@ class PaystackTransfer
 
     public function getBanks(array $queryParameters=[]): array
     {
-        return $this->request->get($this->bank_url, ['perPage' => 2])->json();
+        return $this->connector->send(new GetBanksRequest)->json();
     }
 
     public function getBankCode(string $bankName): string

@@ -2,14 +2,14 @@
 
 namespace Codejutsu1\LaravelPaystackTransfer;
 
-use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Codejutsu1\LaravelPaystackTransfer\Commands\PaystackTransferCommand;
+use Spatie\LaravelPackageTools\Package;                                 
 
 class PaystackTransferServiceProvider extends PackageServiceProvider
 {
-    public function configurePackage(Package $package): void
+   public function configurePackage(Package $package): void
     {
         /*
          * This class is a Package Service Provider
