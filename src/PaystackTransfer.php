@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\PaystackConnector;
 use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\Bank\GetBanksRequest;
+use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\Bank\VerifyAccountNumberRequest;
 use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\TransferRecipient\FetchTransferRecipientRequest;
 use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\TransferRecipient\ListTransferRecipientsRequest;
 use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\TransferRecipient\DeleteTransferRecipientRequest;
@@ -16,8 +17,6 @@ class PaystackTransfer
     protected ?string $secret_key;
 
     protected ?string $public_key;
-
-    protected array $response;
 
     protected array $transfer_parameters;
 
@@ -123,11 +122,8 @@ class PaystackTransfer
 
     public function verifyAccountNumber(string $accountNumber, string $bankCode): array 
     {
-        return $this->request->get($this->bank_url."/resolve", [
-                        "account_number" => $accountNumber,
-                        "bank_code" => $bankCode
-                    ])
-                    ->json();
+        return $this->connector->send(new VerifyAccountNumberRequest($accountNumber, $bankCode))
+                                ->json();
     }
 
     public function singleTransfer(array $parameters): array 
