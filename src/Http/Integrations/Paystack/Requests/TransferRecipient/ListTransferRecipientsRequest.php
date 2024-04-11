@@ -1,6 +1,6 @@
 <?php
 
-namespace Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests;
+namespace Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\TransferRecipient;
 
 use Saloon\Enums\Method;
 use Saloon\Http\Request;

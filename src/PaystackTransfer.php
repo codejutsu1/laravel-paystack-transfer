@@ -5,8 +5,11 @@ namespace Codejutsu1\LaravelPaystackTransfer;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\PaystackConnector;
-use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\GetBanksRequest;
-use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\ListTransferRecipientsRequest;
+use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\Bank\GetBanksRequest;
+use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\TransferRecipient\FetchTransferRecipientRequest;
+use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\TransferRecipient\ListTransferRecipientsRequest;
+use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\TransferRecipient\DeleteTransferRecipientRequest;
+use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\TransferRecipient\UpdateTransferRecipientRequest;
 
 class PaystackTransfer
 {
@@ -90,20 +93,19 @@ class PaystackTransfer
 
     public function fetchTransferRecipient(int|string $id_or_code): array 
     {
-        return $this->request->get($this->transfer_recipient_url."/{$id_or_code}")
-                    ->json();
+        return $this->connector->send(new FetchTransferRecipientRequest($id_or_code))->json();
     }
 
     public function updateTransferRecipient(int|string $id_or_code, array $parameters): array
     {
-        return $this->request->put($this->transfer_recipient_url."/{$id_or_code}", $parameters)
-                    ->json();
+        return $this->connector->send(new UpdateTransferRecipientRequest($id_or_code, $parameters))
+                                ->json();
     }
 
     public function deleteTransferRecipient(int|string $id_or_code): array
     {
-        return $this->request->delete($this->transfer_recipient_url."/{$id_or_code}")
-                    ->json();
+        return $this->connector->send(new DeleteTransferRecipientRequest($id_or_code))
+                                ->json();
     }
 
     public function getBanks(array $queryParameters=[]): array
@@ -113,11 +115,10 @@ class PaystackTransfer
 
     public function getBankCode(string $bankName): string
     {
-        $response = $this->request->get($this->bank_url)->json();
-
-        $code = collect($response['data'])->where('name', $bankName)->value('code');
-
-        return $code;
+        return $this->connector->send(new GetBanksRequest)
+                                    ->collect('data')
+                                    ->where('name', $bankName)
+                                    ->value('code');
     }
 
     public function verifyAccountNumber(string $accountNumber, string $bankCode): array 
