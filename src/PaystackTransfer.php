@@ -6,7 +6,12 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\PaystackConnector;
 use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\Bank\GetBanksRequest;
+use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\Transfers\FetchTransferRequest;
+use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\Transfers\ListTransfersRequest;
 use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\Bank\VerifyAccountNumberRequest;
+use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\Transfers\SingleTransferRequest;
+use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\Transfers\VerifyTransferRequest;
+use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\Transfers\FinalizeTransferRequest;
 use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\TransferRecipient\FetchTransferRecipientRequest;
 use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\TransferRecipient\ListTransferRecipientsRequest;
 use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\TransferRecipient\DeleteTransferRecipientRequest;
@@ -130,7 +135,7 @@ class PaystackTransfer
     {
         $parameters = array_merge($this->transfer_parameters, $parameters);
 
-        return $this->request->post($this->transfer_url, $parameters)->json();
+        return $this->connector->send(new SingleTransferRequest($parameters))->json();
     }
 
     /**
@@ -138,11 +143,8 @@ class PaystackTransfer
      */
     public function finalizeTransfer(string $transfer_code, string $otp): array
     {
-        return $this->request->post($this->transfer_url . "/finalize_transfer", [
-                        "transfer_code" => $transfer_code,
-                        "otp" => $otp
-                    ])
-                    ->json();
+        return $this->connector->send(new FinalizeTransferRequest($transfer_code, $otp))
+                                ->json();
     }
 
     public function bulkTransfer(array $transfers): array
@@ -166,20 +168,17 @@ class PaystackTransfer
 
     public function listTransfers(array $queryParameters=[]): array
     {
-        return $this->request->get($this->transfer_url, $queryParameters)
-                    ->json();
+        return $this->connector->send(new ListTransfersRequest)->json();
     }
 
-    public function fetchTransfer(int|string $id_or_code): array
+    public function fetchTransfer(string $id_or_code): array
     {
-        return $this->request->get($this->transfer_url."/{$id_or_code}")
-                    ->json();
+        return $this->connector->send(new FetchTransferRequest($id_or_code))->json();
     }
 
     public function verifyTransfer(string $reference): array
     {
-        return $this->request->get($this->transfer_url."/verify/{$reference}")
-                    ->json();
+        return $this->connector->send(new VerifyTransferRequest($reference))>json();
     }
 
     private function batches(array $batch): array

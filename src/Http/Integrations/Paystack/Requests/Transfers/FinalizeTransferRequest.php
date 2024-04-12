@@ -7,21 +7,24 @@ use Saloon\Http\Request;
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Traits\Body\HasJsonBody;
 
-class SingleTransferRequest extends Request implements HasBody
+class FinalizeTransferRequest extends Request implements HasBody
 {
     use HasJsonBody;
     
-    public function __construct(protected array $parameters) {
+    public function __construct(protected string $transfer_code, protected string $otp) {
     }
     protected Method $method = Method::POST;
 
     public function resolveEndpoint(): string
     {
-        return '/transfer';
+        return '/transfer/finalize_transfer';
     }
 
     protected function defaultBody(): array
     {
-        return $this->parameters;
+        return [
+            "transfer_code" => $this->transfer_code,
+            "otp" => $this->otp
+        ];
     }
 }
