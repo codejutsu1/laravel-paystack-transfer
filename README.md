@@ -129,7 +129,7 @@ if($response->status){
 
 ### Create Bulk Transfer Recipient
 
-You can create multiple transfer recipient in batches. To create multiple transfer recipient:
+You can create multiple transfer recipient no matter the number of batches. To create multiple transfer recipient:
 
 ```php
 <?php 
@@ -405,9 +405,7 @@ if($response->status){
 > For more information, visit [Paystack Finalize Transfers](https://paystack.com/docs/api/transfer/#finalize).
 
 ### Bulk Transfers
-To send money to multiple recipients, you need to make request in `batches`. A `batch` is an array of arrays containing the [transfer parameters](#payment-flow). A `batch` should not contain more than `100 arrays` and should be sent `every 5 seconds`.
-
-But you don't have to worry about that, just pass the batch as a parameter. Even if your batch contains more than 100 items, this package will break it down into a batches each containing not more than 100 arrays and make a request every 5 seconds.
+To send money to multiple recipients, you need to make request in `batches`. A `batch` is an array of arrays containing the [transfer parameters](#payment-flow). A `batch` should not contain more than `100 arrays`.
 
 ```php
 <?php
@@ -444,6 +442,51 @@ if($response->status){
 }
 
 ```
+
+If the batch should contain more than 100 arrays, it should be broken down into batches, each containing 100 arrays and each batch should be sent `every 5 seconds`.
+
+But you don't have to worry about that, just pass the batch (even if its contains more than 100 arrays) as a parameter in the `batchTransfer` method. This package will proceed to break it down into batches, each containing not more than 100 arrays and will make a request every 5 seconds.
+
+> [!Note]
+> It will return an array of response instead of an object for each request being made.
+
+```php
+<?php
+
+$transfers = [
+    [
+        "amount"=> 20000,
+        "reference"=> "588YtfftReF355894J",
+        "reason"=> "Why not?",
+        "recipient"=> "RCP_2tn9clt23s7qr28",    
+    ],
+    [
+        "amount"=> 30000,
+        "reference"=> "YunoTReF35e0r4J",
+        "reason"=> "Because I can",
+        "recipient"=> "RCP_1a25w1h3n0xctjg",    
+    ],
+    [
+        "amount"=> 40000,
+        "reference"=> generateTransferReference(),
+        "reason"=> "Go buy your mama a house",
+        "recipient"=> "RCP_aps2aibr69caua7",
+    ],
+    //.... > 97 more arrays
+];
+
+try{
+    $response = PaystackTransfer::batchTransfer($transfers);
+}catch(\Exception $e){
+    return redirect()->back()->withMessage($e->getMessage());
+}
+
+if($response->status){
+    //Your logic
+}
+
+```
+
 > [!Note]
 > You need to set up webhooks to keep track of your transfers.
 > For more information, visit [Paystack Bulk Transfers](https://paystack.com/docs/transfers/bulk-transfers/).
@@ -540,6 +583,11 @@ Feel free to submit Issues (for bugs or suggestions) and Pull Requests(to the de
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within this package, please send an email to Daniel Dunu at [danieldunu001@gmail.com](mailto:danieldunu001@gmail.com). All security vulnerabilities will be promptly addressed..
+
+## TODO
+
+- Write test for integrating third party APIs.
+- If your business is a `registered business`, test the transfer feature with your test API Keys and give feedbacks.
 
 ## Credits
 
