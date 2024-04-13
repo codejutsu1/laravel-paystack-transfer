@@ -40,22 +40,9 @@ class PaystackTransfer
                                 ->dtoOrFail();
     }
 
-    public function bulkTransferRecipient(array $parameters): array
+    public function bulkTransferRecipient(array $parameters): Server
     {
-        $batches = $this->batches($parameters);
-
-        $parameters_count = count($parameters) - 1;
-
-        foreach ($batches as $key => $value) {
-            $response[] = $this->connector->send(new BulkTransferRecipientRequest($value))
-                                        ->json();
-
-            if($key === $parameters_count) break;
-
-            sleep(5);
-        }
-
-        return $response;
+        return $this->connector->send(new BulkTransferRecipientRequest($parameters))->dtoOrFail();
     }
 
     public function listTransferRecipients(array $queryParameters=[]): Server
@@ -116,16 +103,22 @@ class PaystackTransfer
                                 ->dtoOrFail();
     }
 
-    public function bulkTransfer(array $transfers): array
+    public function bulkTransfer(array $transfers): Server
+    {
+        $data = array_merge($this->transfer_parameters, ["transfers" => $transfers]);
+
+        return $this->connector->send(new BulkTransferRequest($data))->dtoOrFail();
+    }
+
+    public function batchTransfer($transfers): array
     {
         $batches = $this->batches($transfers);
 
         $transfers_count = count($transfers) - 1;
-        
-        foreach ($batches as $key => $value) {
-            $data = array_merge($this->transfer_parameters, ["transfers" => $value]);
 
-            $response[] = $this->connector->send(new BulkTransferRequest($data))->json();
+        foreach ($batches as $key => $value) {
+
+            $response[] = $this->bulkTransfer($value);
 
             if($key === $transfers_count) break;
 
