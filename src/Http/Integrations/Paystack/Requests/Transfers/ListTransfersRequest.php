@@ -7,7 +7,7 @@ use Saloon\Http\Request;
 
 class ListTransfersRequest extends Request 
 {   
-    public function __construct(protected array $queryParameters=[]) {
+    public function __construct(protected array $queryParameters) {
     }
     protected Method $method = Method::GET; 
 
@@ -15,4 +15,10 @@ class ListTransfersRequest extends Request
     {
         return '/transfer';
     }
+
+    protected function defaultQuery(): array
+    {
+        return $this->queryParameters;
+    }
+}
 }

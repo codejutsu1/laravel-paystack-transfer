@@ -60,7 +60,8 @@ class PaystackTransfer
 
     public function listTransferRecipients(array $queryParameters=[]): Server
     {
-        return $this->connector->send(new ListTransferRecipientsRequest)->dtoOrFail();
+        return $this->connector->send(new ListTransferRecipientsRequest($queryParameters))
+                            ->dtoOrFail();
     }
 
     public function fetchTransferRecipient(int|string $id_or_code): Server
@@ -82,7 +83,7 @@ class PaystackTransfer
 
     public function getBanks(array $queryParameters=[]): Server
     {
-        return $this->connector->send(new GetBanksRequest)->dtoOrFail();
+        return $this->connector->send(new GetBanksRequest($queryParameters))->dtoOrFail();
     }
 
     public function getBankCode(string $bankName): string
@@ -136,7 +137,7 @@ class PaystackTransfer
 
     public function listTransfers(array $queryParameters=[]): Server
     {
-        return $this->connector->send(new ListTransfersRequest)->dtoOrFail();
+        return $this->connector->send(new ListTransfersRequest($queryParameters))->dtoOrFail();
     }
 
     public function fetchTransfer(string $id_or_code): Server

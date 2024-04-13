@@ -9,8 +9,16 @@ class GetBanksRequest extends Request
 {
     protected Method $method = Method::GET;
 
+    public function __construct(protected array $queryParameters) {
+    }
+
     public function resolveEndpoint(): string
     {
         return '/bank';
+    }
+
+    protected function defaultQuery(): array
+    {
+        return $this->queryParameters;
     }
 }
