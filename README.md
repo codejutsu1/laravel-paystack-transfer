@@ -95,6 +95,13 @@ $transfers = [
 ];
 
 ```
+
+2. Each request returns a response as an object containing:
+    - status (boolean)
+    - message (string)
+    - data (array)
+    - meta (array)
+
 ## Transfer Recipient
 ### Create Single Transfer Recipient
 
