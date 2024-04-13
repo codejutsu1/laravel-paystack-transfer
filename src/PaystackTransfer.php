@@ -2,6 +2,7 @@
 
 namespace Codejutsu1\LaravelPaystackTransfer;
 
+use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Server;
 use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\PaystackConnector;
 use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\Bank\GetBanksRequest;
 use Codejutsu1\LaravelPaystackTransfer\Http\Integrations\Paystack\Requests\Transfers\BulkTransferRequest;
@@ -33,10 +34,10 @@ class PaystackTransfer
         ];
     }
 
-    public function createTransferRecipient(array $parameters): array
+    public function createTransferRecipient(array $parameters): Server
     {
         return $this->connector->send(new CreateTransferRecipientRequest($parameters))
-                                ->json();
+                                ->dtoOrFail();
     }
 
     public function bulkTransferRecipient(array $parameters): array
@@ -57,31 +58,31 @@ class PaystackTransfer
         return $response;
     }
 
-    public function listTransferRecipients(array $queryParameters=[]): array
+    public function listTransferRecipients(array $queryParameters=[]): Server
     {
-        return $this->connector->send(new ListTransferRecipientsRequest)->json();
+        return $this->connector->send(new ListTransferRecipientsRequest)->dtoOrFail();
     }
 
-    public function fetchTransferRecipient(int|string $id_or_code): array 
+    public function fetchTransferRecipient(int|string $id_or_code): Server
     {
-        return $this->connector->send(new FetchTransferRecipientRequest($id_or_code))->json();
+        return $this->connector->send(new FetchTransferRecipientRequest($id_or_code))->dtoOrFail();
     }
-
-    public function updateTransferRecipient(int|string $id_or_code, array $parameters): array
+    // returns status and message.
+    public function updateTransferRecipient(int|string $id_or_code, array $parameters): Server
     {
         return $this->connector->send(new UpdateTransferRecipientRequest($id_or_code, $parameters))
-                                ->json();
+                                ->dtoOrFail();
     }
 
-    public function deleteTransferRecipient(int|string $id_or_code): array
+    public function deleteTransferRecipient(int|string $id_or_code): Server
     {
         return $this->connector->send(new DeleteTransferRecipientRequest($id_or_code))
-                                ->json();
+                                ->dtoOrFail();
     }
 
-    public function getBanks(array $queryParameters=[]): array
+    public function getBanks(array $queryParameters=[]): Server
     {
-        return $this->connector->send(new GetBanksRequest)->json();
+        return $this->connector->send(new GetBanksRequest)->dtoOrFail();
     }
 
     public function getBankCode(string $bankName): string
@@ -92,26 +93,26 @@ class PaystackTransfer
                                     ->value('code');
     }
 
-    public function verifyAccountNumber(string $accountNumber, string $bankCode): array 
+    public function verifyAccountNumber(string $accountNumber, string $bankCode): Server
     {
         return $this->connector->send(new VerifyAccountNumberRequest($accountNumber, $bankCode))
-                                ->json();
+                                ->dtoOrFail();
     }
 
-    public function singleTransfer(array $parameters): array 
+    public function singleTransfer(array $parameters): Server 
     {
         $parameters = array_merge($this->transfer_parameters, $parameters);
 
-        return $this->connector->send(new SingleTransferRequest($parameters))->json();
+        return $this->connector->send(new SingleTransferRequest($parameters))->dtoOrFail();
     }
 
     /**
      * If OTP Enabled
      */
-    public function finalizeTransfer(string $transfer_code, string $otp): array
+    public function finalizeTransfer(string $transfer_code, string $otp): Server
     {
         return $this->connector->send(new FinalizeTransferRequest($transfer_code, $otp))
-                                ->json();
+                                ->dtoOrFail();
     }
 
     public function bulkTransfer(array $transfers): array
@@ -133,19 +134,19 @@ class PaystackTransfer
         return $response;
     }
 
-    public function listTransfers(array $queryParameters=[]): array
+    public function listTransfers(array $queryParameters=[]): Server
     {
-        return $this->connector->send(new ListTransfersRequest)->json();
+        return $this->connector->send(new ListTransfersRequest)->dtoOrFail();
     }
 
-    public function fetchTransfer(string $id_or_code): array
+    public function fetchTransfer(string $id_or_code): Server
     {
-        return $this->connector->send(new FetchTransferRequest($id_or_code))->json();
+        return $this->connector->send(new FetchTransferRequest($id_or_code))->dtoOrFail();
     }
 
-    public function verifyTransfer(string $reference): array
+    public function verifyTransfer(string $reference): Server
     {
-        return $this->connector->send(new VerifyTransferRequest($reference))>json();
+        return $this->connector->send(new VerifyTransferRequest($reference))>dtoOrFail();
     }
 
     private function batches(array $batch): array
