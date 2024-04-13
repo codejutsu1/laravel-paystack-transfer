@@ -113,8 +113,7 @@ $data = [
 
 try{
     $response = PaystackTransfer::createTransferRecipient($data);
-}catch(\Exception $e)
-{
+}catch(\Exception $e){
     return redirect()->back()->withMessage($e->getMessage());
 }
 
