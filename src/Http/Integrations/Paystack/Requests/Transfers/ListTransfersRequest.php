@@ -21,4 +21,3 @@ class ListTransfersRequest extends Request
         return $this->queryParameters;
     }
 }
-}

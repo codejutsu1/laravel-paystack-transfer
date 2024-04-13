@@ -111,12 +111,15 @@ $data = [
     "currency" => "NGN", // Recipient Currency
 ];
 
-$response = PaystackTransfer::createTransferRecipient($data);
+try{
+    $response = PaystackTransfer::createTransferRecipient($data);
+}catch(\Exception $e)
+{
+    return redirect()->back()->withMessage($e->getMessage());
+}
 
-if($response['status'] == true){
+if($response->status){
     // Your code Logic
-}else{
-    return redirect()->back()->withMessage($response['message']);
 }
 
 ```
@@ -149,13 +152,16 @@ $data = [
     ],
 ];
 
-$response = PaystackTransfer::bulkTransferRecipient($data);
-
-if($response['status'] == true){
-    // Your code Logic
-}else{
-    return redirect()->back()->withMessage($response['message']);
+try{
+    $response = PaystackTransfer::bulkTransferRecipient($data);
+}catch(\Exception $e){
+    return redirect()->back()->withMessage($e->getMessage());
 }
+
+if($response->status){
+    // Your code Logic
+}
+
 ```
 >[!NOTE]
 > For more information, visit [Paystack Bulk Create Transfer Recipient](https://paystack.com/docs/api/transfer-recipient/#bulk)
@@ -165,18 +171,19 @@ To list all transfer recipients:
 ```php
 <?php
 
-$response = PaystackTransfer::listTransferRecipients();
-
-if($response['status'] == true){
-    // Eg of code logic
-    $transferRecipients = collect($response['data']);
-
-    $transferRecipient = $transferRecipients->pluck('recipient_code');
-
-    return $transferRecipient;
-}else{
-    return redirect()->back()->withMessage($response['message']);
+try{
+    $response = PaystackTransfer::listTransferRecipients();
+}catch(\Exception $e){
+    return redirect()->back()->withMessage($e->getMessage());
 }
+
+if($response->status){
+    // Eg of code logic
+    $transferRecipients = collect($response->data);
+
+    return $transferRecipients;
+}
+
 ```
 You can also provide query parameters as an array:
 ```php
@@ -189,7 +196,11 @@ $queryParameters = [
     "to" => "2016-09-24T00:00:05.000Z", //dateTime(optional), Timestamp to stop listing transfer recipient
 ];
 
-$response = PaystackTransfer::listTransferRecipients($queryParameters);
+try{
+    $response = PaystackTransfer::listTransferRecipients($queryParameters);
+}catch(\Exception $e){
+    return redirect()->back()->withMessage($e->getMessage());
+}
 
 return $response;
 ```
@@ -201,13 +212,16 @@ To fetch a transfer recipient, you need to provide the id or recipient code of t
 ```php
 <?php
 
-$response = PaystackTransfer::fetchTransferRecipient("RCP_2x5j67tnnw1t98k");
-
-if($response['status'] == true){
-    // Your code logic here
-}else{
-    return redirect()->back()->withMessage($response['message']);
+try{
+    $response = PaystackTransfer::fetchTransferRecipient("RCP_2x5j67tnnw1t98k");
+}catch(\Exception $e){
+    return redirect()->back()->withMessage($e->getMessage());
 }
+
+if($response->status){
+    // Your code logic here
+}
+
 ```
 > [!NOTE]
 > For more information, visit [Paystack Fetch Transfer Recipient](https://paystack.com/docs/api/transfer-recipient/#fetch).
@@ -222,13 +236,16 @@ $data = [
     'email' => 'danieldunu001@gmail.com'
 ];
 
-$response = transfer()->updateTransferRecipient("RCP_2x5j67tnnw1t98k", $data);
-
-if($response['status'] == true){
-    // Your code logic here
-}else{
-    return redirect()->back()->withMessage($response['message']);
+try{
+    $response = transfer()->updateTransferRecipient("RCP_2x5j67tnnw1t98k", $data);
+}catch(\Exception $e){
+    return redirect()->back()->withMessage($e->getMessage());
 }
+
+if($response->status){
+    // Your code logic here
+}
+
 ```
 
 > [!NOTE]
@@ -240,13 +257,16 @@ To delete a transfer recipient, you need to provide the id or recipient code of 
 ```php
 <?php
 
-$response = transfer()->deleteTransferRecipient("RCP_2x5j67tnnw1t98k");
-
-if($response['status'] == true){
-    // Your code logic here
-}else{
-    return redirect()->back()->withMessage($response['message']);
+try{
+    $response = transfer()->deleteTransferRecipient("RCP_2x5j67tnnw1t98k");
+}catch(\Exception $e){
+    return redirect()->back()->withMessage($e->getMessage());
 }
+
+if($response->status){
+    // Your code logic here
+}
+
 ```
 > [!NOTE]
 > For more information, visit [Paystack Delete Transfer Recipient](https://paystack.com/docs/api/transfer-recipient/#delete).
@@ -259,14 +279,18 @@ To get lists of banks in Nigeria:
 ```php
 <?php
 
-$response = transfer()->getBanks();
-
-if($response['status'] == true){
-    $banks = collect($response['data']); // To a collection.
-    // Your logic
-}else{
-    return redirect()->back()->withMessage($response['message']);
+try{
+    $response = transfer()->getBanks();
+}catch(\Exception $e){
+    return redirect()->back()->withMessage($e->getMessage());
 }
+
+if($response->status){
+    $banks = collect($response->data); // To a collection.
+
+    // Your logic
+}
+
 ```
 
 You can also provide query parameters as an array:
@@ -280,7 +304,13 @@ $queryParameters = [
     //Other query parameters in the documentation.
 ];
 
-$response = transfer()->getBanks($queryParameters);
+try{
+    $response = transfer()->getBanks($queryParameters);
+}catch(\Exception $e){
+    return redirect()->back()->withMessage($e->getMessage());
+}
+
+return $response;
 
 ```
 > [!NOTE]
@@ -291,7 +321,11 @@ To get a bank code, you need to provide the bank name from the [get bank API](ht
 ```php
 <?php 
 
-$code = transfer()->getBankCode("United Bank For Africa");
+try{
+    $code = transfer()->getBankCode("United Bank For Africa");
+}catch(\Exception $e){
+    return redirect()->back()->withMessage($e->getMessage());
+}
 
 return $code;
 ```
@@ -303,13 +337,16 @@ To confirm the account belongs to the right customer, you need to provide the ac
 ```php
 <?php
 
-$response = PaystackTransfer::verifyAccountNumber(accountNumber:"2134288420", bankCode:"022");
-
-if($response['status'] == true){
-    //Your logic
-}else{
-    return redirect()->back()->withMessage($response['message']);
+try{
+    $response = PaystackTransfer::verifyAccountNumber(accountNumber:"2134288420", bankCode:"022");
+}catch(\Exception $e){
+    return redirect()->back()->withMessage($e->getMessage());
 }
+
+if($response->status){
+    //Your logic
+}
+
 ```
 > [!NOTE]
 > For more information, visit [Paystack Resolve Account](https://paystack.com/docs/api/verification/#resolve-account).
@@ -333,13 +370,14 @@ $parameters = [
 	"reference": "your-unique-reference",
 	"recipient": "RCP_1a25w1h3n0xctjg"
 ];
+try{
+    $response = PaystackTransfer::singleTransfer($parameters);
+}catch(\Exception $e){
+    return redirect()->back()->withMessage($e->getMessage());
+}
 
-$response = PaystackTransfer::singleTransfer($parameters);
-
-if($response['status'] == true){
-    //Your logic
-}else{
-    return redirect()->back()->withMessage($response['message']);
+if($response->status){
+    //Your code logic
 }
 
 ```
@@ -353,13 +391,16 @@ After making a single transfer with `OTP enabled`, you will have to finalized yo
 ```php
 <?php
 
-$response = transfer()->finalizeTransfer(transfer_code:"TRF_vsyqdmlzble3uii", otp: "930322");
-
-if($response['status'] == true){
-    //Your logic
-}else{
-    return redirect()->back()->withMessage($response['message']);
+try{
+    $response = transfer()->finalizeTransfer(transfer_code:"TRF_vsyqdmlzble3uii", otp: "930322");
+}catch(\Exception $e){
+    return redirect()->back()->withMessage($e->getMessage());
 }
+
+if($response->status){
+    //Your logic
+}
+
 ```
 > [!NOTE]
 > For more information, visit [Paystack Finalize Transfers](https://paystack.com/docs/api/transfer/#finalize).
@@ -393,17 +434,14 @@ $transfers = [
     ]
 ];
 
-/**
- * Returns an array of arrays.
-*/
-$response = PaystackTransfer::bulkTransfer($transfers);
+try{
+    $response = PaystackTransfer::bulkTransfer($transfers);
+}catch(\Exception $e){
+    return redirect()->back()->withMessage($e->getMessage());
+}
 
-// For batch with less than 100 arrays
-
-if($response['status'] == true){
+if($response->status){
     //Your logic
-}else{
-    return redirect()->back()->withMessage($response['message']);
 }
 
 ```
@@ -417,12 +455,14 @@ Paystack gives you the option to get the list of all your transfers:
 ```php
 <?php
 
-$response = PaystackTransfer::listTransfers();
+try{
+    $response = PaystackTransfer::listTransfers();
+}catch(\Exception $e){
+    return redirect()->back()->withMessage($e->getMessage());
+}
 
-if($response['status'] == true){
+if($response->status){
     //Your logic
-}else{
-    return redirect()->back()->withMessage($response['message']);
 }
 
 ```
@@ -436,7 +476,14 @@ $queryParameters = [
     "to" => "2016-09-24T00:00:05.000Z", //dateTime(optional), Timestamp to stop listing transfer recipient
 ];
 
-$response = PaystackTransfer::listTransfers($queryParameters);
+try{
+    $response = PaystackTransfer::listTransfers($queryParameters);
+}catch(\Exception $e){
+    return redirect()->back()->withMessage($e->getMessage());
+}
+
+return $response;
+
 ```
 > [!NOTE]
 > For more information, visit [Paystack List Transfers](https://paystack.com/docs/api/transfer/#list).
@@ -446,12 +493,14 @@ Get details of a transfer. You need to provide transfer id.
 ```php
 <?php
 
-$response = PaystackTransfer::fetchTransfer("14938");
+try{
+    $response = PaystackTransfer::fetchTransfer("14938");
+}catch(\Exception $e){
+    return redirect()->back()->withMessage($e->getMessage());
+}
 
-if($response['status'] == true){
+if($response->status){
     //Your logic
-}else{
-    return redirect()->back()->withMessage($response['message']);
 }
 ```
 > [!NOTE]
@@ -461,13 +510,15 @@ if($response['status'] == true){
 Verify the status of a transfer. You need to provide transfer reference.
 ```php
 
-$response = PaystackTransfer::verifyTransfer("your_reference");
+try{
+    $response = PaystackTransfer::verifyTransfer("your_reference");
+}catch(\Exception $e){
+    return redirect()->back()->withMessage($e->getMessage());
+}
 
-if($response['status'] == true){
-    //Your logic
-}else{
-    return redirect()->back()->withMessage($response['message']);
-}   
+if($response->status){
+    //Your code logic
+} 
 
 ```
 > [!NOTE]
